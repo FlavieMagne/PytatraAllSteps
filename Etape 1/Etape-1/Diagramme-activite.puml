@@ -1,0 +1,44 @@
+@startuml
+start
+
+group Initialization 
+    :54 planchettes sont réparties en 2 joueurs;
+    :Affiche"Joueur 1 pioche et pose la planchette sur la table";
+    :Retire 1 planchette à la pioche;
+end group
+
+
+while (Tour en équilibre) is (oui)
+    if (Pioche vide) then (non)
+        
+        :Affiche "Joueur 2 pioche";
+        :Retire 1 planchette à la pioche;
+        :Joueur 2 donne planchette à joueur 1;
+        :Joueur 1 empile planchette avec un décalage;
+        if (Tour en équilibre) then (oui)
+            :Affiche "Joueur 1 pioche";
+            :Retire 1 planchette à la pioche;
+            :Joueur 1 donne planchette à joueur 2;
+            :Joueur 2 empile planchette avec un décalage;
+        else (non)
+            :Affiche: "Joueur 1 a perdu";
+            kill
+        endif
+    else (oui)
+        :Affiche "Pioche vide, la partie est nulle";
+        kill
+    endif
+
+
+endwhile (non)
+    :Affiche "Fin du jeu";
+    if ( Le joueur 1 fait s'écrouler la tour) then (non)
+        :Affiche "Joueur 1 à gagné!";
+        kill
+    else (oui)
+        :Affiche "Joueur 2 à gagné!";
+        kill
+    endif
+
+
+@enduml

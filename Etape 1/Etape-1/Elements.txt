@@ -1,0 +1,19 @@
+Planchettes à faire au total (54):
+
+2 de 10 cm / 1 8 1 (marge de 1cm et zone de pause de 8 cm)
+4 de 10 cm / 2 6 2 (marge de 2cm et zone de pause de 6 cm)
+6 de 10 cm / 3 4 3 (marge de 3cm et zone de pause de 4 cm)
+
+4 de 12 cm / 2 8 2 (marge de 2cm et zone de pause de 8 cm)
+6 de 12 cm / 3 6 3 (marge de 3cm et zone de pause de 6 cm)
+8 de 12 cm / 4 4 4 (marge de 4cm et zone de pause de 4 cm)
+
+6 de 14 cm / 3 8 3 (marge de 3cm et zone de pause de 8 cm)
+8 de 14 cm / 4 6 4 (marge de 4cm et zone de pause de 6 cm)
+10 de 14 cm / 5 4 5 (marge de 5cm et zone de pause de 4 cm)
+
+
+Sachant que:
+ -La zone de pause doit être totalement pausée 
+ -Seule 1 marge des 2 marges peut toucher la pièce inférieure
+ -Les 54 planchettes sont réparties en 2 pioches égales (27 pour chaque joueur)

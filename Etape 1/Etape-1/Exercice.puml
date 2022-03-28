@@ -1,0 +1,33 @@
+@startuml
+
+start
+:Affiche "Entrez un nombre";
+:Saisis texte //t//;
+
+while (//t// égal à //f// ?) is (non)
+
+if (//t// entier ?) then (oui)
+	:Affiche "C'est un entier";
+else (non)
+	:Affiche "C'est un réel";
+endif
+
+if (//f// inférieur à //t//) then (non)
+    :Affiche "Trop grand!";
+    :Affiche "Entrez un nouveau nombre";
+    :Saisis texte //t//;
+else(oui)
+    :Affiche "Trop petit!";
+    :Affiche "Entrez un nouveau nombre";
+    :Saisis texte //t//;
+endif
+
+endwhile (oui)
+if (//t// égal à //f// ?) then (oui)
+	:Affiche "oui ";
+        :Ajoute 1 au score;
+	:Affiche "Score=  ";
+endif
+stop
+
+@enduml

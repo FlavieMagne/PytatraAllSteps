@@ -1,0 +1,9 @@
+@startuml
+
+start
+:Affiche "Entrez un nombre";
+:Saisis texte;
+:Affiche "C'est une chaîne";
+stop
+
+@enduml

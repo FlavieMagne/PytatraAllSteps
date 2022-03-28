@@ -1,0 +1,11 @@
+@startuml
+
+start
+:Affiche "Entrez un nombre";
+:Saisis texte //t//;
+if (//t// entier ?) then (oui)
+	:Affiche "C'est un entier";
+endif
+stop
+
+@enduml
