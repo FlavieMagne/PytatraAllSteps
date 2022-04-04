@@ -6,23 +6,21 @@ def cree():
 
 
 def estVide(pile):
-	if pile!=None:
-		pile=True #retourne vrai si la liste est vide
-	else:
-		pile=False #faux sinon
-	return pile
+	estVide=not pile
+	return estVide
 
 def sommet(pile):
-	if estVide(pile):
+	if estVide(pile)==True:
 		return None #renvoie None si la liste est vide
 	else:
 		return pile[-1] #si la liste n'est pas vide, renvoie l'empilement au sommet de la pile (au dernier élément de la liste)
 
 def empile(pile, planchette, decalage):
-	if estVide(pile):
+	if estVide(pile)==True:
 		pile.append(Empilement.cree(planchette,decalage)) #si la viste est vide, on lui ajoute une planchette
 	else:
 		pile.append(Empilement.cree(planchette,decalage+Empilement.centreGeometrique(sommet(pile)))) #si la liste n'est pas vide, on lui ajoute une planchette en prennantenn compte le centre geo de la planchette la plus au sommet
+
 
 def versChaine(pile):
 
@@ -39,39 +37,26 @@ def empileEtCalcule(pile, planchette, decalage):
 	calculeEquilibre(pile)
 
 def calculeCentresGravite(pile):
-	#masse calculée du sommet au sol
-	for i in range(len(pile)-2,-1,-1):
+	for i in range(len(pile)-1, 0, -1) :
 
-		Masse=Empilement.masse(pile[i])
-		MasseSommet=Empilement.masse(pile[i+1]) #masse de l'empilement au sommet
-		longueur=Planchette.longueur(Empilement.planchette(pile[i])) #longueur planchette a la base de la pile
-		centre = Empilement.centreGeometrique(pile[i])
-		centreGrav_dessus = Empilement.centreGravite(pile[i+1])
+		masse_dessus = pile[i][2]['masse']
+		longueur = pile[i-1][0][0]
+		centre = pile[i-1][1]
+		centreG_dessus = pile[i][2]['centreGravite']
 
-		mi=longueur+Masse
-		# gi=(longueur*centre+MasseSommet*centreGrav_dessus)/mi
-		gi=(longueur*centre+MasseSommet*centreGrav_dessus)/mi	
+		masse = longueur + masse_dessus
+		gi = (longueur*centre+masse_dessus*centreG_dessus)/masse
 
-		pile[i][2][1]=mi
-		pile[i][1][2]=gi 
-
-
-		# if MasseSommet==longueur:
-		# 	# Masse=Empilement.masse(pile[i])
-		# 	mi=longueur+MasseSommet
-		# 	gi=(longueur*centre+MasseSommet*centreGrav_dessus)/MasseSommet
-		# else:
-		
-		# 	mi=longueur+MasseSommet
-		# 	# gi=(longueur*centre+MasseSommet*centreGrav_dessus)/mi
-		# 	gi=(longueur*centre+MasseSommet*centreGrav_dessus)/mi
-
-		# 	#centre=somme des décalages de ts les centres geometriques?
-			
-		# 	#on remplace les valeurs précédentes par les nouvelles:
-		# pile[i][2]=mi
-		# pile[i][1]=gi 
+		pile[i-1][2]['masse'] = masse
+		pile[i-1][2]['centreGravite'] = gi
 
 
 def calculeEquilibre(pile):
-	pass
+	for i in range(len(pile)-1, 0, -1) :
+		centre = pile[i-1][1]
+		centreG_dessus = pile[i][2]['centreGravite']
+		longueur = pile[i-1][0][0]
+
+		if abs(centreG_dessus-centre)>longueur/2:
+			pile[i][2]['desequilibre']=True
+		
