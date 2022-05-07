@@ -1,17 +1,22 @@
 import Planchette
 
 def cree(planchette, nombre):
-	return [planchette, nombre] #retourne une liste contenant un type de planchette et le nombre
+	#retourne une liste qui représente le nombre d’exemplaires d’une planchette
+	return [planchette, nombre]
 
 def planchette(exemplaires):
+	#on retourne la planchette considérée par les exemplaires en question
 	return exemplaires[0]
 
 def nombre(exemplaires, valeur=None):
+	#si la valeur est définie
 	if valeur!=None:
+		#valeur prend le nombre d'exemplaires
 		exemplaires[1]=valeur
 	return exemplaires[1]
 
 def retireUn(exemplaires):
+	#on retire un exemplaires
 	exemplaires[1]=exemplaires[1]-1
 	return exemplaires[1]
 

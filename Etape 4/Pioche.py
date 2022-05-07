@@ -2,17 +2,22 @@ import Exemplaires
 import Planchette
 
 def cree():
+	#on créer la pioche (d'abord vide)
 	pioche = []
 	for i in range(3) :
 		for j in range(1, 4) :
+			#on définit toutes les longueurs de planchettes avec (10+2*i)
+			#car les différentes longueurs sont 10,12,14 donc de 2 en 2
+			#(i+j) pour les marges
 			planchette = Planchette.cree(10+2*i, i+j)
-			pioche.append(Exemplaires.cree(planchette, i+j))
+			#on remarque que le nbr d'exemplaires est égal à la marge:
+			pioche.append(Exemplaires.cree(planchette, Planchette.marge(planchette)))
 	return pioche
 
 def nombrePlanchettes(pioche):
 	#on initialise une variable
 	nombre=0
-	#on cree une boucle qui récupère chaque exemplaires du jeu
+	#on crée une boucle qui récupère chaque exemplaires du jeu
 	for i in pioche:
 		nombre+=Exemplaires.nombre(i)
 	return nombre
@@ -23,7 +28,7 @@ def versChaine(pioche):
 	contenuPioche=""
 	for planchette in pioche:
 		contenuPioche+=Exemplaires.versChaine(planchette)+" "
-	return 	contenuPioche
+	return contenuPioche
 
 def recherche(pioche, numero):
 	indice=-1
