@@ -55,39 +55,63 @@ def passeJoueurSuivant(jeu):
 # Etape 5.2
 
 def joue(jeu):
-	Fenetre.bouclePrincipale(fenetre(jeu))
 	majVues(jeu) #on appelle la fonction
-	Fenetre.quitte(fenetre(jeu))
+	Fenetre.bouclePrincipale(fenetre(jeu))
+	
+	activite(jeu)
 
 def majVues(jeu):
-	# #on clean la fenêtre
-	# Fenetre.effaceGraphiques(fenetre(jeu))
-	# #on dessine la fenêtre avec ce qui va dedans
-	# VuePile.dessine(fenetre(jeu), pile(jeu))
-	
-	# # #on affiche les pioches des joueurs
-	# for gauche in enumerate(joueurs(jeu)):
-	# 	# si gauche est vrai, on dessine la pioche à gauche
-	# 	# sinon, à droite
-	# 	if gauche==True:
-	# 		VuePioche.dessine(fenetre(jeu), Joueur.pioche(joueurs), gauche)
-	# 	elif gauche==False:
-	# 		VuePioche.dessine(fenetre(jeu), Joueur.pioche(joueurs), gauche)
-
+	#on clean la fenêtre
 	Fenetre.effaceGraphiques(fenetre(jeu))
+	#on dessine la fenêtre avec ce qui va dedans
 	VuePile.dessine(fenetre(jeu), pile(jeu))
 
-	VuePioche.dessine(fenetre(jeu), Joueur.pioche(joueurs(jeu)[2]), gauche=True)
-	VuePioche.dessine(fenetre(jeu), Joueur.pioche(joueurs(jeu)[3]), gauche=False)
+	#on affiche les pioches des deux joueurs
+	VuePioche.dessine(fenetre(jeu), Joueur.pioche(joueurCourant(jeu)), True)
+	VuePioche.dessine(fenetre(jeu), Joueur.pioche(joueurCourant(jeu)), False)
 
 
 # Etape 5.3
 
 def activite(jeu):
-	pass
+	Fenetre.quitte(fenetre(jeu))
+	joueurCourant(jeu)
+
+	if (Pioche.cree(jeu)!=0 and Empilement.desequilibre(jeu,False))==True:
+		print("Sélectionnez une planchette",selectionnePlanchette(jeu))
+		if selectionnePlanchette(jeu)!=None:
+			pass
+		else:
+			print("Voulez-vous débuter une partie?", None)
+			
+	else:
+		pass
+
+	
+# choisisDecalage(jeu, planchetteAPoser)
 
 def selectionnePlanchette(jeu):
-	return None
+	dialogue=Dialogue.saisisNombre(jeu);
+	if Fenetre.quitte(jeu):
+		return None
+	else:
+		for dialogue in jeu:
+			Dialogue.saisisFlottant(dialogue)
+			Dialogue.saisisEntier(dialogue)
+	
+		return Dialogue.afficheMessage(jeu)
 
 def choisisDecalage(jeu, planchetteAPoser):
-	return None
+	if Fenetre.quitte(jeu):
+		return None
+	else:
+		planchetteAPoser=Dialogue.saisisEntier(jeu)
+		if planchetteAPoser<= Pile.sommet(pile):
+			pass
+
+
+
+
+		
+		else:
+			return planchetteAPoser

@@ -55,14 +55,24 @@ def quandOuverte(fenetre, fonction, argument):
 def quitte(fenetre):
 	tk(fenetre).quit()
 
-def afficheMessage(fenetre, message):
-	pass
+def afficheMessage(message):
+	showinfo("Pytatra", message)
 
-def saisisTexte(fenetre, message):
-	return None
+def saisisEntier(message):
+	return saisisNombre(message, True)
 
-def saisisEntier(fenetre, message):
-	return None
+def saisisFlottant(message):
+	return saisisNombre(message, False)
 
-def saisisFlottant(fenetre, message):
-	return None
+def saisisNombre(message, entier):
+	saisie = None
+	while (saisie == None):
+		if (entier):
+			saisie = askinteger("Pytatra", message)
+		else:
+			saisie = askfloat("Pytatra", message)
+		if (saisie == None):
+			reponse = askyesno("Pytatra", "Voulez-vous terminer le jeu ?")
+			if (reponse):
+				return None
+	return saisie
