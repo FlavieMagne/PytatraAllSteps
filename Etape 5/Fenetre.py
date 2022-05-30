@@ -28,16 +28,33 @@ def tk(fenetre):
 def affiche(fenetre):
 	tk(fenetre).mainloop() # démarrage du réceptionnaire d’événements
 
+def bouclePrincipale(fenetre):
+	tk(fenetre).mainloop() # démarrage du réceptionnaire d’événements
+
 # Etape 5
 
 TagGraphiques = 'graphique'
-#bug dans le test, je pense qu'il faut appeler affiche et non bouclePrincipale
+
 def effaceGraphiques(fenetre):
 	#on ajoute un tag à tous les objects du canvas
+	# print(f"canvas: {toile(fenetre)}")
 	toile(fenetre).addtag_all(TagGraphiques)
 	#on supprime les graphiques de la toile de la fenêtre
 	toile(fenetre).delete(TagGraphiques)
-		
+	
+
+def quandOuverte(fenetre, fonction, argument):
+	def fonctionInterne(e):
+		# pour éviter les invocations ultérieures
+		tk(fenetre).unbind('<Map>') 
+		# invocation de la fonction principale
+		fonction(argument)
+	# liaison de l'évènement d'ouverture
+	tk(fenetre).bind('<Map>', fonctionInterne)
+
+def quitte(fenetre):
+	tk(fenetre).quit()
+
 def afficheMessage(fenetre, message):
 	pass
 

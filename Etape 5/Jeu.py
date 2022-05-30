@@ -18,7 +18,8 @@ def cree():
 
 def fenetre(jeu):
 	#retourne la fenêtre principale de l’application
-	return jeu[0]
+	# return jeu[0]
+	return Fenetre.tk(jeu)
 
 def pile(jeu):
 	#retour la pile de planchettes du jeu
@@ -44,31 +45,40 @@ def joueurCourant(jeu):
 def passeJoueurSuivant(jeu):
 	#passe au joueur suivant
 	#si le Joueur1 joue, on passe au Joueur2 et inversement
-	if indiceJoueur(jeu) == 0:
-		jeu[4]['indiceJoueur'] = 1
+	if indiceJoueur(jeu)==0:
+		jeu[4]['indiceJoueur']=1
 	else:
-		jeu[4]['indiceJoueur'] = 0
+		jeu[4]['indiceJoueur']=0
 
 
 
 # Etape 5.2
 
 def joue(jeu):
-	Fenetre.affiche(fenetre(jeu))
+	Fenetre.bouclePrincipale(fenetre(jeu))
+	majVues(jeu) #on appelle la fonction
+	Fenetre.quitte(fenetre(jeu))
 
 def majVues(jeu):
-	#on clean la fenetre
-	Fenetre.effaceGraphiques(fenetre(jeu))
-	#on dessine la fenetre avec ce qui va dedans
-	VuePile.dessine(fenetre(jeu), pile(jeu))
+	# #on clean la fenêtre
+	# Fenetre.effaceGraphiques(fenetre(jeu))
+	# #on dessine la fenêtre avec ce qui va dedans
+	# VuePile.dessine(fenetre(jeu), pile(jeu))
 	
-	for gauche in enumerate(joueurs(jeu)):
-		#si gauche est vrai, on dessine la pioche à gauche
-		#sinon, à droite
-		if gauche==True:
-			VuePioche.dessine(fenetre(jeu), Joueur.pioche(joueurs, gauche))
-		elif gauche==False:
-			VuePioche.dessine(fenetre(jeu), Joueur.pioche(joueurs, gauche))
+	# # #on affiche les pioches des joueurs
+	# for gauche in enumerate(joueurs(jeu)):
+	# 	# si gauche est vrai, on dessine la pioche à gauche
+	# 	# sinon, à droite
+	# 	if gauche==True:
+	# 		VuePioche.dessine(fenetre(jeu), Joueur.pioche(joueurs), gauche)
+	# 	elif gauche==False:
+	# 		VuePioche.dessine(fenetre(jeu), Joueur.pioche(joueurs), gauche)
+
+	Fenetre.effaceGraphiques(fenetre(jeu))
+	VuePile.dessine(fenetre(jeu), pile(jeu))
+
+	VuePioche.dessine(fenetre(jeu), Joueur.pioche(joueurs(jeu)[2]), gauche=True)
+	VuePioche.dessine(fenetre(jeu), Joueur.pioche(joueurs(jeu)[3]), gauche=False)
 
 
 # Etape 5.3

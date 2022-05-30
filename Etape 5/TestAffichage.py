@@ -17,5 +17,4 @@ for test in range (1, 4):
 	# test 3 : aucune planchette n'est affichée
 	if (test == 3):
 		Fenetre.effaceGraphiques(f)
-	# Fenetre.bouclePrincipale(f)
-	Fenetre.affiche(f)
+	Fenetre.bouclePrincipale(f)
