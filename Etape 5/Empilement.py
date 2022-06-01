@@ -1,10 +1,6 @@
 import Planchette
 
 def cree(planchette, centre):
-	# centreGeometrique=centre
-	# masse=Planchette.longueur(planchette) #la masse est égale à la longueur de la planchette
-	# desequilibre=False #la pile est à l'equilibre
-	# centreGravite=centre
 	return (planchette, centre, {'masse' : Planchette.longueur(planchette), 'centreGravite' : centre, 'desequilibre' : False})
 def planchette(empilement):
 	return empilement[0] #retourne la premiere valeur de la liste initialisée avec la fonction cree

@@ -56,11 +56,13 @@ def passeJoueurSuivant(jeu):
 
 def joue(jeu):
 	majVues(jeu) #on appelle la fonction
+	activite(jeu)
 	Fenetre.bouclePrincipale(fenetre(jeu))
 	
-	activite(jeu)
+	
 
 def majVues(jeu):
+	#initialise et affiche le jeu
 	#on clean la fenêtre
 	Fenetre.effaceGraphiques(fenetre(jeu))
 	#on dessine la fenêtre avec ce qui va dedans
@@ -74,35 +76,69 @@ def majVues(jeu):
 # Etape 5.3
 
 def activite(jeu):
-	Fenetre.quitte(fenetre(jeu))
-	joueurCourant(jeu)
-
-	if (Pioche.cree(jeu)!=0 and Empilement.desequilibre(jeu,False))==True:
-		print("Sélectionnez une planchette",selectionnePlanchette(jeu))
-		if selectionnePlanchette(jeu)!=None:
-			pass
-		else:
-			print("Voulez-vous débuter une partie?", None)
-			
-	else:
-		pass
-
 	
-# choisisDecalage(jeu, planchetteAPoser)
+	#on initialise les variables
+	Pioche=Joueur.pioche(joueurCourant(jeu))
+	global GameStart
+	GameStart=True
+	
+	Decalage=choisisDecalage(jeu, Planchette)
+	print("Hello")
+	planchetteAPoser = selectionnePlanchette(jeu)
+	Desequilibre=False
+	
+	nombrePlanchette=Pioche.nombrePlanchettes(Joueur.pioche(joueurCourant(jeu)))
+	#doit sélectionner une planchette
+	
+	if planchetteAPoser == None :
+		print("Jeu terminé") #s'il n'y a pas de planchette à poser, c'est fini
+
+	#sinon la partie peut commencer ou continuer
+	
+
+	while nombrePlanchette!=0 and Empilement.desequilibre==False and planchetteAPoser!=None:
+		Dialogue.afficheMessage("Sélectionnez une planchette",selectionnePlanchette(jeu))
+		if planchetteAPoser==None:
+			print("Jeu terminé")
+		else:
+			Pioche.retire(Pioche,Planchette.numero(planchetteAPoser))
+			if GameStart:
+				Pile.empileEtCalcule(pile(jeu),planchetteAPoser,0) #le decalage est nul car c'est la première
+				majVues(jeu)
+				passeJoueurSuivant(jeu)
+				GameStart=False #car la première planchette est posée
+			else:
+				#milieu de partie
+				passeJoueurSuivant(jeu)
+				if Decalage==None:
+					print("Jeu terminé")
+				else:
+					Pile.empileEtCalcule(pile(jeu),planchetteAPoser,Decalage)
+					for empilement in pile(jeu):
+						if Empilement.desequilibre(empilement):
+							Desequilibre = True
+				majVues(jeu)
+	if Desequilibre==True:
+		Dialogue.afficheMessage(Joueur.nom(joueurCourant(jeu)),+"a gagné!")
+	else:
+		if nombrePlanchette==0:
+			Dialogue.afficheMessage("Égalité!")
+
 
 def selectionnePlanchette(jeu):
-	dialogue=Dialogue.saisisNombre(jeu);
-	if Fenetre.quitte(jeu):
-		return None
-	else:
-		for dialogue in jeu:
-			Dialogue.saisisFlottant(dialogue)
-			Dialogue.saisisEntier(dialogue)
+	numero=0 #initialisé à 0
+	#tant que la valeur entrée par le joueur est différente d'un nom de planchette de la pioche
+	while Pioche.contient(Joueur.pioche(joueurCourant(jeu)),numero)!= True:
+		#on lui demande re ressaisir un numero
+		numero = Dialogue.saisisEntier(Joueur.nom(joueurCourant(jeu)) + ', entrez un numéro de planchette valide.')
+		#s'il ne met rien
+		if numero==None:
+			return None
 	
-		return Dialogue.afficheMessage(jeu)
-
 def choisisDecalage(jeu, planchetteAPoser):
-	if Fenetre.quitte(jeu):
+	# if Fenetre.quitte(jeu):
+	# 	return None
+	if GameStart==False:
 		return None
 	else:
 		planchetteAPoser=Dialogue.saisisEntier(jeu)

@@ -7,7 +7,7 @@ from tkinter.simpledialog import *
 # Boite dialogues : https://runestone.academy/runestone/books/published/thinkcspy/GUIandEventDrivenProgramming/02_standard_dialog_boxes.html
 
 def afficheMessage(message):
-	showinfo(Fenetre.Titre, message)
+	showinfo("Pytatra", message)
 
 def saisisEntier(message):
 	return saisisNombre(message, True)
