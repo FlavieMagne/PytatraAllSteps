@@ -38,15 +38,16 @@ def recherche(pioche, numero):
 		numero_planchette = int(Planchette.numero(Exemplaires.planchette(planchette))) #on recupere le numero
 		if numero_planchette==numero and Exemplaires.nombre(planchette)>0: #si le numero de la planchette courante correspond au numero recherhce
 			#on retourne ce numéro
-			indice=i #on retourne son index
-			break		
+			# indice=i #on retourne son index
+			# break		
+			return i
 	return indice
 
 def contient(pioche, numero):
-	if recherche(pioche,numero)!=None:
-		return True
-	else:
+	if recherche(pioche,numero)==-1:
 		return False
+	else:
+		return True
 
 def retire(pioche, numero):
 	# on definit une variable qui va contenir la planchette correspondant au numéro passé en paramètre
