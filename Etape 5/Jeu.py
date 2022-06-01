@@ -78,28 +78,22 @@ def majVues(jeu):
 def activite(jeu):
 	
 	#on initialise les variables
-	Pioche=Joueur.pioche(joueurCourant(jeu))
+	nombrePlanchettes = Pioche.nombrePlanchettes(Joueur.pioche(joueurCourant(jeu)))
 	global GameStart
 	GameStart=True
-	
+	endGame=False
 	Decalage=choisisDecalage(jeu, Planchette)
-	print("Hello")
 	planchetteAPoser = selectionnePlanchette(jeu)
-	Desequilibre=False
+	desequilibre=False
 	
-	nombrePlanchette=Pioche.nombrePlanchettes(Joueur.pioche(joueurCourant(jeu)))
-	#doit sélectionner une planchette
-	
-	if planchetteAPoser == None :
-		print("Jeu terminé") #s'il n'y a pas de planchette à poser, c'est fini
-
 	#sinon la partie peut commencer ou continuer
-	
-
-	while nombrePlanchette!=0 and Empilement.desequilibre==False and planchetteAPoser!=None:
-		Dialogue.afficheMessage("Sélectionnez une planchette",selectionnePlanchette(jeu))
-		if planchetteAPoser==None:
+	while nombrePlanchettes!=0 and desequilibre==False and endGame!=True:
+		Dialogue.saisisEntier(selectionnePlanchette(jeu))
+		print("hello")
+		if planchetteAPoser==None: #si aucune planchette n'est désignée
+			endGame=True #fin du jeu
 			print("Jeu terminé")
+			
 		else:
 			Pioche.retire(Pioche,Planchette.numero(planchetteAPoser))
 			if GameStart:
@@ -111,17 +105,22 @@ def activite(jeu):
 				#milieu de partie
 				passeJoueurSuivant(jeu)
 				if Decalage==None:
+					endGame=True
 					print("Jeu terminé")
+
 				else:
 					Pile.empileEtCalcule(pile(jeu),planchetteAPoser,Decalage)
 					for empilement in pile(jeu):
 						if Empilement.desequilibre(empilement):
-							Desequilibre = True
-				majVues(jeu)
-	if Desequilibre==True:
+							desequilibre=True
+					nombrePlanchettes=Pioche.nombrePlanchettes(Joueur.pioche(joueurCourant(jeu)))
+					majVues(jeu)
+	print(nombrePlanchettes)
+	
+	if desequilibre==True:
 		Dialogue.afficheMessage(Joueur.nom(joueurCourant(jeu)),+"a gagné!")
 	else:
-		if nombrePlanchette==0:
+		if nombrePlanchettes==0:
 			Dialogue.afficheMessage("Égalité!")
 
 
@@ -135,19 +134,35 @@ def selectionnePlanchette(jeu):
 		if numero==None:
 			return None
 	
+	return Exemplaires.planchette(Joueur.pioche(joueurCourant(jeu))[Pioche.recherche(Joueur.pioche(joueurCourant(jeu)), numero)])
+	
 def choisisDecalage(jeu, planchetteAPoser):
 	# if Fenetre.quitte(jeu):
 	# 	return None
-	if GameStart==False:
-		return None
-	else:
-		planchetteAPoser=Dialogue.saisisEntier(jeu)
-		if planchetteAPoser<= Pile.sommet(pile):
-			pass
+	# if GameStart==False:
+	# 	return None
+	# else:
+	# 	planchetteAPoser=Dialogue.saisisEntier(jeu)
+	# 	if planchetteAPoser<= Pile.sommet(pile):
+	# 		pass
+	# else:
+	# 			return planchetteAPoser
 
 
-
-
+	decalage = 0	#initialisation de la variable qui contiendra la valeur de décalage choisi sur 0
+	if Pile.estVide(pile(jeu)) :
+		pass
+	else :
+		marge_dessous = Planchette.marge(Empilement.planchette(Pile.sommet(pile(jeu))))
+		longueur_dessous = Planchette.longueur(Empilement.planchette(Pile.sommet(pile(jeu))))
+		centre_dessous = Empilement.centreGeometrique(Pile.sommet(pile(jeu)))
+		longueur_dessus = Planchette.longueur(planchetteAPoser)
 		
-		else:
-			return planchetteAPoser
+		while ((longueur_dessous/2 - marge_dessous) - longueur_dessus/2) < decalage < ((marge_dessous - longueur_dessous/2) + longueur_dessus/2) or abs(decalage) > ((longueur_dessous + longueur_dessus)/2)  :
+			decalage = Dialogue.saisisFlottant(Joueur.nom(joueurCourant(jeu)) + ', choisissez un décallage')
+			if decalage == None : break
+			if ((longueur_dessous/2 - marge_dessous) - longueur_dessus/2) < decalage < ((marge_dessous - longueur_dessous/2) + longueur_dessus/2) :
+				Dialogue.afficheMessage("Le décalage choisi est trop petit.\nLa planchette ne peut reposer que sur une marge.")
+			elif abs(decalage) >= ((longueur_dessous + longueur_dessus)/2) :
+				Dialogue.afficheMessage("Le décalage choisi est trop grand.\nLa planchette doit reposer sur la planchette précédente.")
+	return decalage
