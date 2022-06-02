@@ -78,9 +78,8 @@ def majVues(jeu):
 
 def activite(jeu):
 
-#changer msg decalage
-#joueur1 joueur2 ???
-#msg erreur- planchette selectionnée n'existe pas
+#supprime des 2 pioches
+#se ferme parfois pour rien
 	
 	#on initialise les variables
 	pioche=Joueur.pioche(joueurCourant(jeu))
@@ -95,8 +94,6 @@ def activite(jeu):
 	i=0
 	while nombrePlanchettes!=0 and desequilibre==False and endGame!=True:
 		print(f"i: {i}")
-		# Dialogue.saisisEntier(selectionnePlanchette(jeu))
-		# planche=Dialogue.saisisEntier("selectionnes une Planchette")
 		planchetteAPoser = selectionnePlanchette(jeu)
 		decalage=choisisDecalage(jeu, planchetteAPoser)
 		Pioche.retire(pioche,Planchette.numero(planchetteAPoser))
@@ -130,10 +127,10 @@ def activite(jeu):
 		
 	if desequilibre==True:
 		print("Tu tombeeeees")
-		Dialogue.afficheMessage(joueurCourant(jeu),"à perdu")
+		Dialogue.afficheMessage("Tu as perdu !")
 	else:
 		if nombrePlanchettes==0:
-			Dialogue.afficheMessage("Égalité!")
+			Dialogue.afficheMessage("Égalité !")
 			print("il n'y a plus de planchettes")
 	print("remontes !")
 	print(nombrePlanchettes, desequilibre, endGame)
@@ -147,27 +144,23 @@ def selectionnePlanchette(jeu):
 		print("je suis dans selectionnePlanchette")
 		#on lui demande re ressaisir un numero
 		numero = Dialogue.saisisEntier(Joueur.nom(joueurCourant(jeu)))
-		#s'il ne met rien
+		if not Pioche.contient(Joueur.pioche(joueurCourant(jeu)),numero):
+			Dialogue.afficheMessage("La planchette choisie n'existe pas.")
+		#s'il ferme
 		if numero==None:
 			return None
-		# elif Pioche.contient(Joueur.pioche(joueurCourant(jeu))!=True, numero) and numero != None :
-		# 		Dialogue.afficheMessage("Merci d'entrer un numéro de planchette valide et contenu dans votre pioche.")
-	
+
 	numero = str(numero)
 	marge = int(numero[0])
-	longueur = int(numero[1]) + 2 * marge #Récupération à la sauvage de la longueur et de la marge.
+	longueur = int(numero[1]) + 2 * marge
 	return Planchette.cree(longueur, marge)
-	# return Exemplaires.planchette(Joueur.pioche(joueurCourant(jeu))[Pioche.recherche(Joueur.pioche(joueurCourant(jeu)), numero)])
-
 
 def choisisDecalage(jeu, planchetteAPoser):
-	print("Je suis dans choisisDecalage")
 	decalage = 0	#initialisé à 0
 
 	if Pile.estVide(pile(jeu)) :
 		pass
 	else :
-		print("choisisDécalage")
 		marge = Planchette.marge(Empilement.planchette(Pile.sommet(pile(jeu))))
 		longueur_dessous = Planchette.longueur(Empilement.planchette(Pile.sommet(pile(jeu))))
 		longueur_dessus = Planchette.longueur(planchetteAPoser)
@@ -177,7 +170,7 @@ def choisisDecalage(jeu, planchetteAPoser):
 			decalage = Dialogue.saisisFlottant("Choisissez un déclage")
 			if decalage == None : break
 			if ((longueur_dessous/2 - marge) - longueur_dessus/2) < decalage < ((marge - longueur_dessous/2) + longueur_dessus/2) :
-				Dialogue.afficheMessage("Le décalage choisi est trop petit.\nLa planchette ne peut reposer que sur une marge.")
+				Dialogue.afficheMessage("Le décalage choisi est trop petit. La planchette ne doit reposer que sur une marge.")
 			elif abs(decalage) >= ((longueur_dessous + longueur_dessus)/2) :
-				Dialogue.afficheMessage("Le décalage choisi est trop grand.\nLa planchette doit reposer sur la planchette précédente.")
+				Dialogue.afficheMessage("Le décalage choisi est trop grand.")
 	return decalage
