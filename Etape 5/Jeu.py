@@ -77,6 +77,10 @@ def majVues(jeu):
 # Etape 5.3
 
 def activite(jeu):
+
+#changer msg decalage
+#joueur1 joueur2 ???
+#msg erreur- planchette selectionnée n'existe pas
 	
 	#on initialise les variables
 	pioche=Joueur.pioche(joueurCourant(jeu))
@@ -85,9 +89,7 @@ def activite(jeu):
 	GameStart=True
 	endGame=False
 	# planchetteAPoser = selectionnePlanchette(jeu)
-	
 	desequilibre=False
-	
 	
 	#sinon la partie peut commencer ou continuer
 	i=0
@@ -125,7 +127,7 @@ def activite(jeu):
 					majVues(jeu)
 			
 			print(nombrePlanchettes)
-		break
+		
 	if desequilibre==True:
 		print("Tu tombeeeees")
 		Dialogue.afficheMessage(joueurCourant(jeu),"à perdu")
@@ -156,9 +158,10 @@ def selectionnePlanchette(jeu):
 	longueur = int(numero[1]) + 2 * marge #Récupération à la sauvage de la longueur et de la marge.
 	return Planchette.cree(longueur, marge)
 	# return Exemplaires.planchette(Joueur.pioche(joueurCourant(jeu))[Pioche.recherche(Joueur.pioche(joueurCourant(jeu)), numero)])
-	
+
 
 def choisisDecalage(jeu, planchetteAPoser):
+	print("Je suis dans choisisDecalage")
 	decalage = 0	#initialisé à 0
 
 	if Pile.estVide(pile(jeu)) :
@@ -171,7 +174,7 @@ def choisisDecalage(jeu, planchetteAPoser):
 		
 		while ((longueur_dessous/2 - marge) - longueur_dessus/2) < decalage < ((marge - longueur_dessous/2) + longueur_dessus/2) or abs(decalage) > ((longueur_dessous + longueur_dessus)/2)  :
 			# decalage = Dialogue.saisisFlottant(Joueur.nom(joueurCourant(jeu)))
-			decalage = Dialogue.saisisFlottant("yo")
+			decalage = Dialogue.saisisFlottant("Choisissez un déclage")
 			if decalage == None : break
 			if ((longueur_dessous/2 - marge) - longueur_dessus/2) < decalage < ((marge - longueur_dessous/2) + longueur_dessus/2) :
 				Dialogue.afficheMessage("Le décalage choisi est trop petit.\nLa planchette ne peut reposer que sur une marge.")
