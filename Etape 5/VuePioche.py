@@ -10,14 +10,12 @@ def dessine(fenetre, pioche, gauche):
 	if gauche==True:
 		#pioche à gauche
 		#[::-1] pour inverser le sens des écritures dans pioche
-		print(f'len pioche: {len(pioche)}')
 		for i in range(len(pioche)):
 			Fenetre.toile(fenetre).create_text(30,y+i*20,text=Exemplaires.versChaine(pioche[i])[::-1])
 	
 	else:
 		#pioche à droite
 		#970 correspond aux x et 410 indenté de 20 aux y
-		print(f'len pioche: {len(pioche)}')
 		for i in range(len(pioche)):
 			Fenetre.toile(fenetre).create_text(970, y+i*20 ,text=Exemplaires.versChaine(pioche[i])[::-1])
 	

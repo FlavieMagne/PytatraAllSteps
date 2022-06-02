@@ -28,7 +28,7 @@ def pile(jeu):
 
 def joueurs(jeu):
 	#retourne la liste des joueurs
-	return [Joueur.nom(jeu[2]),Joueur.nom(jeu[3])]
+	return [jeu[2], jeu[3]]
 
 def indiceJoueur(jeu):
 	#retourne l’indice du joueur courant (0 ou 1)
@@ -70,20 +70,16 @@ def majVues(jeu):
 	VuePile.dessine(fenetre(jeu), pile(jeu))
 
 	#on affiche les pioches des deux joueurs
-	VuePioche.dessine(fenetre(jeu), Joueur.pioche(joueurCourant(jeu)), True)
-	VuePioche.dessine(fenetre(jeu), Joueur.pioche(joueurCourant(jeu)), False)
+	VuePioche.dessine(fenetre(jeu), Joueur.pioche(joueurs(jeu)[0]), True)
+	VuePioche.dessine(fenetre(jeu), Joueur.pioche(joueurs(jeu)[1]), False)
 
 
 # Etape 5.3
 
 def activite(jeu):
 
-#supprime des 2 pioches
-#se ferme parfois pour rien
-	
 	#on initialise les variables
-	pioche=Joueur.pioche(joueurCourant(jeu))
-	nombrePlanchettes = Pioche.nombrePlanchettes(pioche)
+	nombrePlanchettes = Pioche.nombrePlanchettes(Joueur.pioche(joueurCourant(jeu)))
 	global GameStart
 	GameStart=True
 	endGame=False
@@ -91,9 +87,10 @@ def activite(jeu):
 	
 	#sinon la partie peut commencer ou continuer
 	while nombrePlanchettes!=0 and desequilibre==False and endGame!=True:
+		pi=Joueur.pioche(joueurCourant(jeu))
 		planchetteAPoser = selectionnePlanchette(jeu)
 		decalage=choisisDecalage(jeu, planchetteAPoser)
-		Pioche.retire(pioche,Planchette.numero(planchetteAPoser))
+		Pioche.retire(pi,Planchette.numero(planchetteAPoser))
 		if planchetteAPoser==None: #si aucune planchette n'est désignée
 			endGame=True #fin du jeu
 			
@@ -103,7 +100,7 @@ def activite(jeu):
 				majVues(jeu)
 				passeJoueurSuivant(jeu)
 				GameStart=False #car la première planchette est posée
-				print(GameStart)
+				# print(GameStart)
 			else:
 				#milieu de partie
 				passeJoueurSuivant(jeu)
@@ -116,8 +113,6 @@ def activite(jeu):
 						if Empilement.desequilibre(empilement):
 							desequilibre=True
 					majVues(jeu)
-			
-			print(nombrePlanchettes)
 		
 	if desequilibre==True:
 		Dialogue.afficheMessage("Tu as perdu !")
@@ -129,7 +124,6 @@ def activite(jeu):
 def selectionnePlanchette(jeu):
 	numero=0 #initialisé à 0
 	#tant que la valeur entrée par le joueur est différente d'un nom de planchette de la pioche
-	print(Joueur.pioche(joueurCourant(jeu)), numero)
 	while Pioche.contient(Joueur.pioche(joueurCourant(jeu)),numero)!= True:
 		#on lui demande re ressaisir un numero
 		numero = Dialogue.saisisEntier(Joueur.nom(joueurCourant(jeu)))
